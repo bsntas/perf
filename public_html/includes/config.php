@@ -25,19 +25,19 @@ return [
 
     /* ---------- Contact details ---------- */
     // Phone as shown to visitors, and the same number in international format for links.
-    'phone_display' => '',                  // e.g. '+91 98765 43210'
-    'phone_intl'    => '',                  // e.g. '919876543210'  (digits only, with country code)
-    'whatsapp_intl' => '',                  // e.g. '919876543210'  (leave empty to hide WhatsApp buttons)
+    'phone_display' => '+917676363671',
+    'phone_intl'    => '917676363671',      // digits only, with country code
+    'whatsapp_intl' => '917676363671',      // leave empty to hide WhatsApp buttons
     'whatsapp_text' => 'Hello PERF, I would like to know more about your programs.',
     'email'         => 'info@perf.org.in',
-    'address'       => '1st Floor, Milestone Building, 2.5 Mile',  // add city, state and PIN code
+    'address'       => '1st Floor, Milestone Building, 2.5 Mile, Checkpost, Siliguri, West Bengal- 734008',
     'hours'         => 'Mon – Sat, 10:00 AM – 6:00 PM',
     // Google Map: leave empty to build the map from 'address' automatically,
     // or paste the src="..." URL from Google Maps > Share > Embed a map.
-    'map_embed_url' => '',
+    'map_embed_url' => 'https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d222.67940045243884!2d88.43730613586101!3d26.748511290719954!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1795256078719!5m2!1sen!2sin',
 
     'social' => [                           // leave any empty to hide it
-        'facebook'  => '',
+        'facebook'  => 'https://www.facebook.com/profile.php?id=61569201356532',
         'instagram' => '',
         'youtube'   => '',
         'linkedin'  => '',
