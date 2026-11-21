@@ -1,0 +1,34 @@
+# Publishes a static preview of the site to GitHub Pages on every push to main.
+# One-time setup: repo Settings > Pages > Build and deployment > Source: "GitHub Actions".
+# The preview form sends enquiries via WhatsApp / email (there is no PHP on GitHub Pages).
+name: Preview on GitHub Pages
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency: pages
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with: { php-version: '8.2' }
+      - id: pages
+        uses: actions/configure-pages@v5
+      - run: ./scripts/build-static.sh
+        env:
+          PERF_BASE: ${{ steps.pages.outputs.base_path }}/
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: dist/static }
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: { name: github-pages, url: '${{ steps.d.outputs.page_url }}' }
+    steps:
+      - id: d
+        uses: actions/deploy-pages@v4

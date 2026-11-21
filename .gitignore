@@ -1,0 +1,5 @@
+dist/
+public_html/storage/*
+!public_html/storage/.htaccess
+!public_html/storage/index.php
+.DS_Store

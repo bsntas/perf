@@ -1,0 +1,38 @@
+# Deploys public_html/ to Hostinger over FTP whenever main changes (or on demand).
+# One-time setup: GitHub repo > Settings > Secrets and variables > Actions, add
+#   FTP_SERVER   (e.g. 89.116.133.35)
+#   FTP_USERNAME (from hPanel > Files > FTP Accounts)
+#   FTP_PASSWORD
+# Optional repository variable FTP_DIR if your FTP login does not land next to public_html
+#   (e.g. domains/perf.org.in/public_html/). Must end with a slash.
+name: Deploy to Hostinger
+on:
+  push:
+    branches: [main]
+    paths: ['public_html/**']
+  workflow_dispatch:
+concurrency: deploy
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check FTP secrets are configured
+        id: check
+        env: { S: '${{ secrets.FTP_PASSWORD }}' }
+        run: if [ -n "$S" ]; then echo "ok=1" >> "$GITHUB_OUTPUT"; else echo "::warning::FTP secrets not set, skipping deploy"; fi
+      - uses: actions/checkout@v4
+        if: steps.check.outputs.ok
+      - uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        if: steps.check.outputs.ok
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./public_html/
+          server-dir: ${{ vars.FTP_DIR || './public_html/' }}
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.gitkeep
+            storage/leads.csv
+            storage/rl_*
