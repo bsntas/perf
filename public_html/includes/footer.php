@@ -17,7 +17,7 @@
   <div class="wrap fgrid">
     <div>
       <a href="<?= url() ?>" class="flogo"><?= logo('full', 'Poudyal Education and Research Foundation logo', 'width="720" height="480" loading="lazy"') ?></a>
-      <p class="muted">PERF guides students and families through education, careers and global opportunities.</p>
+      <?php if (cfg('footer_text') !== ''): ?><p class="muted"><?= e(cfg('footer_text')) ?></p><?php endif; ?>
       <?php $social = array_filter(cfg('social', [])); if ($social): ?>
       <p class="social"><?php foreach ($social as $k => $u): ?><a href="<?= e($u) ?>" target="_blank" rel="noopener" aria-label="PERF on <?= e(ucfirst($k)) ?>"><?= social_svg($k) ?></a><?php endforeach; ?></p>
       <?php endif; ?>
@@ -32,7 +32,7 @@
     </div>
     <div>
       <h4>Study destinations</h4>
-      <?php foreach ($DATA['destinations'] as $d): ?><a href="<?= url('contact') ?>?interest=<?= e($d['services'][0]) ?>#enquiry"><?= e($d['name']) ?></a><?php endforeach; ?>
+      <?php foreach ($DATA['destinations'] as $d): ?><a href="<?= url('contact') ?>?interest=<?= e($d['services'][0] ?? '') ?>#enquiry"><?= e($d['name']) ?></a><?php endforeach; ?>
     </div>
     <div class="fcontact">
       <h4>Contact</h4>

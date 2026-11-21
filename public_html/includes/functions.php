@@ -6,6 +6,18 @@ date_default_timezone_set('Asia/Kolkata');
 $CFG  = require __DIR__ . '/config.php';
 $DATA = require __DIR__ . '/data.php';
 
+/* Changes made in the admin panel (/admin) are saved to storage/settings.json and replace the
+   matching defaults above. Delete that file to go back to config.php / data.php. */
+define('SETTINGS_FILE', dirname(__DIR__) . '/storage/settings.json');
+if (is_file(SETTINGS_FILE)) {
+    $saved = json_decode((string)file_get_contents(SETTINGS_FILE), true);
+    if (is_array($saved)) {
+        foreach ($saved['config'] ?? [] as $k => $v) $CFG[$k] = $v;
+        foreach ($saved['data'] ?? [] as $k => $v) $DATA[$k] = $v;
+    }
+    unset($saved);
+}
+
 function cfg($key, $default = '') { global $CFG; return $CFG[$key] ?? $default; }
 function e($s) { return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
 
@@ -43,7 +55,7 @@ function logo($which, $alt, $attrs = '') {
 }
 
 /* Minimal inline icon set (stroke icons), so no icon font or extra requests are needed. */
-function icon($name, $size = 24) {
+function icon_paths() {
     static $p = [
         'compass'     => '<circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36z"/>',
         'stethoscope' => '<path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6 6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6 6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/>',
@@ -71,6 +83,10 @@ function icon($name, $size = 24) {
         'spark'       => '<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6.3 6.3l2.5 2.5M15.2 15.2l2.5 2.5M6.3 17.7l2.5-2.5M15.2 8.8l2.5-2.5"/>',
         'star'        => '<path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/>',
     ];
+    return $p;
+}
+function icon($name, $size = 24) {
+    $p = icon_paths();
     return '<svg class="i" width="' . $size . '" height="' . $size . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' . ($p[$name] ?? '') . '</svg>';
 }
 
@@ -127,7 +143,7 @@ function page_hero($title, $sub) {
 function service_card($slug, $s, $full = false) {
     global $DATA;
     $h = '<article class="card svc" id="' . e($slug) . '" data-cat="' . e($s['cat']) . '">'
-       . '<div class="svc-top"><span class="svc-ico">' . icon($s['icon'], 26) . '</span><span class="tag">' . e($DATA['categories'][$s['cat']]) . '</span></div>'
+       . '<div class="svc-top"><span class="svc-ico">' . icon($s['icon'], 26) . '</span><span class="tag">' . e($DATA['categories'][$s['cat']] ?? '') . '</span></div>'
        . '<h3>' . e($s['title']) . '</h3><p>' . e($s['text']) . '</p>';
     if ($full) {
         $h .= '<ul class="ticks">';

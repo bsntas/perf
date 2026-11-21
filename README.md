@@ -5,9 +5,42 @@ Live at <https://perf.org.in> (Hostinger Premium shared hosting, PHP).
 
 Pages: Home, About, Services (with category filters), Gallery & Success Stories, Why PERF, FAQs, Contact (enquiry form, map, WhatsApp), plus a 404 page.
 
-## Editing content
+## Admin panel (edit content online)
 
-Almost everything is edited in two files – no HTML knowledge needed:
+Open **<https://perf.org.in/admin>** to update the website without touching any files:
+
+| Menu | What you can change |
+|---|---|
+| Quick edits | Contact details (phone, WhatsApp, email, address, hours, map, social links), announcement strip, events, gallery photos (upload / caption / delete), enquiries (view, search, download for Excel) |
+| Home page | Top banner text, "core strengths" figures, testimonials, "Find your path" goals, study destinations, end-to-end support, steps |
+| Pages | Services and their categories, brochure PDF, About page (mission, vision, values, partners, founder's message and photo), Why PERF, FAQs |
+| Settings | Organisation name, tagline, footer text, enquiry inbox, Google Analytics, password, earlier versions, backup/restore |
+
+Every page in the admin opens with the website's current content filled in, so nothing has to be typed from scratch.
+
+**First-time setup (once, after deploying):** open `/admin`. It asks for a setup code: in hPanel →
+**File Manager**, open `public_html/storage/admin-setup-code.txt`, copy the code, and choose a password
+(at least 10 characters). The code file is deleted automatically afterwards.
+
+**Forgot the password?** Delete `public_html/storage/admin.json` in File Manager and open `/admin` again
+to set a new one. Website content is not affected.
+
+**How it works:** changes are saved to `public_html/storage/settings.json` (blocked from the web) and
+replace the matching defaults in `config.php` / `data.php`. The last 30 versions are kept in
+`storage/history/` and can be restored under *Settings → Password & backups*. Uploaded photos go into
+`assets/img/gallery/…` and `assets/img/team/`; large photos are resized to 1600px automatically.
+Neither the zip upload nor the GitHub deploy overwrites `storage/` or uploaded photos.
+
+Security: passwords are stored hashed, sessions expire after 4 hours of inactivity, every form is
+protected against cross-site requests, 5 wrong passwords lock that IP out for 15 minutes, and scripts
+can never run from the upload folders. `/admin` is hidden from search engines.
+
+> Changes made in the admin only exist on the live server. They don't appear in this repository or on
+> the GitHub Pages preview. Download a backup from the admin if you want a copy.
+
+## Editing content in code
+
+The defaults (what the site shows until something is changed in the admin) live in two files:
 
 | File | What's in it |
 |---|---|
@@ -44,6 +77,7 @@ For reliable email delivery, create the `form_from` mailbox (default `no-reply@p
 3. Upload `perf-site.zip`, right-click → **Extract** into `public_html` so `index.php` sits directly inside it.
 4. Make sure the `storage` folder is writable (permission 755 is normal on Hostinger).
 5. hPanel → **Security → SSL** → install the free SSL. `.htaccess` then forces `https://` and removes `www.`.
+6. Open `https://perf.org.in/admin` and set the admin password (see *Admin panel* above).
 
 ### Option B – automatic deploy from GitHub
 `.github/workflows/deploy.yml` uploads `public_html/` over FTP on every push to `main`.
@@ -88,9 +122,11 @@ Then open <http://localhost:8000>. (The router mimics the `.htaccess` clean URLs
 public_html/            ← everything that goes on the server
   index.php about.php services.php gallery.php why-perf.php faqs.php contact.php 404.php
   enquiry.php           form handler
+  admin.php             admin panel (/admin)
   includes/             config, content data, header/footer (blocked from the web)
-  storage/              leads.csv (blocked from the web)
-  assets/css, js, img, brochure
+  includes/admin/       admin panel: schema.php (what can be edited), lib.php
+  storage/              leads.csv, settings.json, admin login, history (blocked from the web)
+  assets/css, js, img, brochure, admin
   .htaccess robots.txt sitemap.xml
 dev/router.php          local preview router
 scripts/build-zip.sh    builds dist/perf-site.zip

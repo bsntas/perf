@@ -3,6 +3,7 @@
 #   FTP_SERVER   (e.g. 89.116.133.35)
 #   FTP_USERNAME (from hPanel > Files > FTP Accounts)
 #   FTP_PASSWORD
+# Content edited in the admin panel (storage/, uploaded photos) is never overwritten or deleted.
 # Optional repository variable FTP_DIR if your FTP login does not land next to public_html
 #   (e.g. domains/perf.org.in/public_html/). Must end with a slash.
 name: Deploy to Hostinger
@@ -36,3 +37,7 @@ jobs:
             **/.gitkeep
             storage/leads.csv
             storage/rl_*
+            storage/*.json
+            storage/*.txt
+            storage/*.lock
+            storage/history/**

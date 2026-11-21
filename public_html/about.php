@@ -14,8 +14,7 @@ $f = cfg('founder', []);
     <div>
       <span class="eyebrow">Who we are</span>
       <h2>Poudyal Education &amp; Research Foundation</h2>
-      <p>PERF is an organization working in education, career counseling, medical admissions, abroad studies, skill development and global opportunities. We help students and families make confident, well-informed decisions about their academic and professional future.</p>
-      <p>From choosing a stream after school to securing admission in a recognised university abroad or a paid training program in Germany, our counselors stay with students through every step.</p>
+      <?php foreach (preg_split('/\n\s*\n/', trim(cfg('about_intro'))) as $para) if ($para !== '') echo '<p>' . e($para) . '</p>'; ?>
       <?php if (cfg('about_extra') !== ''): ?><p><?= e(cfg('about_extra')) ?></p><?php endif; ?>
     </div>
     <div class="about-logo card"><?= logo('full', 'PERF logo', 'width="720" height="480" loading="lazy"') ?></div>

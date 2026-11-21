@@ -7,7 +7,7 @@ $desc  = 'PERF offers career counseling, MBBS abroad, medical admissions, Ausbil
 require __DIR__ . '/includes/header.php';
 $stats = cfg('stats', []);
 $testimonials = cfg('testimonials', []);
-// Until real figures are added in config.php, show facts that come straight from the site content.
+// Until real figures are added (admin panel or config.php), show facts that come straight from the site content.
 if (!$stats) $stats = [
     ['value' => (string)count($DATA['services']), 'label' => 'Programs & services', 'text' => 'Medical, abroad, online and skill programs under one roof.'],
     ['value' => (string)count($DATA['destinations']), 'label' => 'Study destinations', 'text' => 'Options in India and around the world, matched to your goals.'],
@@ -21,17 +21,15 @@ $events = array_values(array_filter(cfg('events', []), function ($ev) { return e
   <div class="wrap hero-in">
     <div class="hero-text">
       <span class="pill"><?= icon('spark', 16) ?> <?= e(cfg('tagline')) ?></span>
-      <h1>Your global education and career journey <span class="hl">starts here</span></h1>
-      <p>We are bringing quality education and global careers within every student's reach, with honest guidance on counseling, medical admissions, studies abroad and skill development.</p>
+      <h1><?= e(cfg('hero_title')) ?><?php if (cfg('hero_highlight') !== ''): ?> <span class="hl"><?= e(cfg('hero_highlight')) ?></span><?php endif; ?></h1>
+      <?php if (cfg('hero_text') !== ''): ?><p><?= e(cfg('hero_text')) ?></p><?php endif; ?>
       <div class="hero-btns">
         <a class="btn btn-gold btn-lg" href="<?= url('contact') ?>#enquiry">Book Free Counseling <?= icon('arrow', 18) ?></a>
         <a class="btn btn-ghost btn-lg" href="#find-path">Find my path</a>
       </div>
-      <ul class="hero-points">
-        <li><?= icon('check', 18) ?> Free first session</li>
-        <li><?= icon('check', 18) ?> India &amp; abroad</li>
-        <li><?= icon('check', 18) ?> End-to-end support</li>
-      </ul>
+      <?php if (cfg('hero_points')): ?><ul class="hero-points">
+        <?php foreach (cfg('hero_points') as $pt): ?><li><?= icon('check', 18) ?> <?= e($pt) ?></li><?php endforeach; ?>
+      </ul><?php endif; ?>
     </div>
 
     <div class="hero-art" aria-hidden="true">
@@ -67,7 +65,7 @@ $events = array_values(array_filter(cfg('events', []), function ($ev) { return e
     <div class="sec-head"><span class="eyebrow">Find your path</span><h2>What would you like to do?</h2><p>Tap the option that fits you best. We'll show the programs that can get you there.</p></div>
     <div class="goals" role="group" aria-label="Choose your goal">
       <?php foreach ($DATA['goals'] as $i => $g): ?>
-        <a class="goal" href="<?= url('services') ?>#<?= e($g['services'][0]) ?>" data-goal="<?= $i ?>">
+        <a class="goal" href="<?= url('services') ?>#<?= e($g['services'][0] ?? '') ?>" data-goal="<?= $i ?>">
           <span class="goal-ico"><?= icon($g['icon'], 28) ?></span>
           <b><?= e($g['title']) ?></b><small><?= e($g['text']) ?></small>
           <span class="goal-tick"><?= icon('check', 16) ?></span>
@@ -83,7 +81,7 @@ $events = array_values(array_filter(cfg('events', []), function ($ev) { return e
           <?php endforeach; ?>
         </div>
         <div class="hero-btns center-btns">
-          <a class="btn btn-gold" href="<?= url('contact') ?>?interest=<?= e($g['services'][0]) ?>#enquiry">Get free advice on this <?= icon('arrow', 18) ?></a>
+          <a class="btn btn-gold" href="<?= url('contact') ?>?interest=<?= e($g['services'][0] ?? '') ?>#enquiry">Get free advice on this <?= icon('arrow', 18) ?></a>
           <?php if (wa_link()): ?><a class="btn btn-wa" href="<?= e(wa_link('Hello PERF, I would like to ' . strtolower($g['title']) . '. Please guide me.')) ?>" target="_blank" rel="noopener"><?= wa_svg(18) ?> Ask on WhatsApp</a><?php endif; ?>
         </div>
       </div>
@@ -116,7 +114,7 @@ $events = array_values(array_filter(cfg('events', []), function ($ev) { return e
     <div class="sec-head"><span class="eyebrow">Study destinations</span><h2>Where would you like to go?</h2><p>Explore countries our students choose for medicine, vocational training and higher studies.</p></div>
     <div class="grid g4 dests">
       <?php foreach ($DATA['destinations'] as $d): ?>
-        <a class="card dest" href="<?= url('contact') ?>?interest=<?= e($d['services'][0]) ?>#enquiry">
+        <a class="card dest" href="<?= url('contact') ?>?interest=<?= e($d['services'][0] ?? '') ?>#enquiry">
           <span class="dest-code"><?= e($d['code']) ?></span>
           <span><b><?= e($d['name']) ?></b><small><?= e($d['text']) ?></small></span>
           <?= icon('arrow', 18) ?>
