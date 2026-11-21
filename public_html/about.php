@@ -3,7 +3,7 @@ define('PERF', 1);
 require __DIR__ . '/includes/functions.php';
 $page = 'about';
 $title = 'About Us';
-$desc  = 'About Poudyal Education & Research Foundation (PERF): our mission, vision, values, leadership and international partnerships.';
+$desc  = 'About Poudyal Education & Research Foundation (PERF): a non-profit founded in 2021 and registered with MCA and NITI Aayog. Our history, mission, leadership and partnerships.';
 require __DIR__ . '/includes/header.php';
 $f = cfg('founder', []);
 ?>
@@ -15,7 +15,7 @@ $f = cfg('founder', []);
       <span class="eyebrow">Who we are</span>
       <h2>Poudyal Education &amp; Research Foundation</h2>
       <?php foreach (preg_split('/\n\s*\n/', trim(cfg('about_intro'))) as $para) if ($para !== '') echo '<p>' . e($para) . '</p>'; ?>
-      <?php if (cfg('about_extra') !== ''): ?><p><?= e(cfg('about_extra')) ?></p><?php endif; ?>
+      <?php foreach (preg_split('/\n\s*\n/', trim(cfg('about_extra'))) as $para) if ($para !== '') echo '<p>' . e($para) . '</p>'; ?>
     </div>
     <div class="about-logo card"><?= logo('full', 'PERF logo', 'width="720" height="480" loading="lazy"') ?></div>
   </div>
@@ -32,11 +32,12 @@ $f = cfg('founder', []);
 <section class="section">
   <div class="wrap two founder-row">
     <div class="founder card">
-      <?php if (!empty($f['photo'])): ?><img src="<?= e(asset($f['photo'])) ?>" alt="<?= e($f['name']) ?>" loading="lazy"><?php else: ?><div class="avatar"><?= icon('users', 56) ?></div><?php endif; ?>
+      <?php if (!empty($f['photo'])): ?><img src="<?= e(asset($f['photo'])) ?>" alt="<?= e($f['name']) ?>" width="800" height="1000" loading="lazy"><?php else: ?><div class="avatar"><?= icon('users', 56) ?></div><?php endif; ?>
     </div>
     <div>
       <span class="eyebrow">Leadership</span>
-      <h2>Message from the founder</h2>
+      <h2>Message from the <?= stripos($f['title'] ?? '', 'chairman') !== false ? 'Chairman' : 'founder' ?></h2>
+      <?php if (!empty($f['bio'])): ?><p class="bio"><?= e($f['bio']) ?></p><?php endif; ?>
       <?php foreach (preg_split('/\n\s*\n/', trim($f['message'])) as $para): ?><p><?= e($para) ?></p><?php endforeach; ?>
       <?php if (!empty($f['name'])): ?><p class="sign"><b><?= e($f['name']) ?></b><br><span><?= e($f['title']) ?></span></p><?php endif; ?>
     </div>
