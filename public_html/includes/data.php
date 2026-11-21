@@ -13,9 +13,9 @@ return [
     'services' => [
         'career-counseling' => [
             'cat' => 'career', 'icon' => 'compass', 'home' => true,
-            'title' => 'Career Counseling',
-            'text'  => 'One-to-one guidance to choose the right stream, course and country based on your strengths, interests and goals.',
-            'points' => ['Aptitude & interest assessment', 'Stream and course selection after 10th / 12th', 'Personalised career roadmap', 'Guidance for parents'],
+            'title' => 'AI-Powered Psychometric Career Counseling',
+            'text'  => 'Scientific aptitude, personality and 360° skill-gap assessments for school students (Classes 8–12), college graduates and working professionals. Take the test at careertest.perf.org.in.',
+            'points' => ['Aptitude & personality assessment', '360° skill-gap analysis', 'Stream and course selection', 'Personalised career roadmap'],
         ],
         'medical-education' => [
             'cat' => 'medical', 'icon' => 'stethoscope',
@@ -25,9 +25,9 @@ return [
         ],
         'mbbs-abroad' => [
             'cat' => 'medical', 'icon' => 'globe', 'home' => true,
-            'title' => 'MBBS Abroad',
-            'text'  => 'End-to-end guidance on recognised universities, eligibility, fees, documentation, visa and travel.',
-            'points' => ['NMC / WHO-recognised universities', 'Transparent fee structure', 'Admission letter & visa assistance', 'Pre-departure and on-arrival support'],
+            'title' => 'MBBS & MD Abroad',
+            'text'  => 'End-to-end admission guidance for MBBS, MD and allied health sciences abroad: universities, eligibility, fees, documentation, visa and travel. PERF has guided 500+ Indian students into international medical programs.',
+            'points' => ['NMC / WHO-recognised universities', 'MBBS, MD & allied health sciences', 'Admission letter & visa processing', 'Pre-departure and on-arrival support'],
         ],
         'other-medical-courses' => [
             'cat' => 'medical', 'icon' => 'heart',
@@ -42,7 +42,7 @@ return [
             'points' => ['Nursing, hospitality, IT & technical trades', 'German language preparation (A1–B2)', 'Employer matching & contracts', 'Visa and relocation guidance'],
         ],
         'online-education' => [
-            'cat' => 'skills', 'icon' => 'laptop', 'home' => true,
+            'cat' => 'skills', 'icon' => 'laptop',
             'title' => 'Online Education',
             'text'  => 'Flexible online degrees and certifications from recognised institutions, so you can learn while you work.',
             'points' => ['UGC-entitled online degrees', 'Professional certifications', 'Study at your own pace', 'Admission & exam support'],
@@ -56,14 +56,26 @@ return [
         'abroad-studies' => [
             'cat' => 'abroad', 'icon' => 'plane', 'home' => true,
             'title' => 'Abroad Studies (Non-Medical)',
-            'text'  => 'Study options in engineering, business, IT, humanities and more across leading global destinations.',
+            'text'  => 'Engineering, management (MBA / BBA), IT, nursing, science programs and many more across leading global destinations.',
             'points' => ['Country & university shortlisting', 'SOP, LOR and application support', 'Scholarship guidance', 'Student visa assistance'],
         ],
         'skill-development' => [
             'cat' => 'skills', 'icon' => 'tools', 'home' => true,
             'title' => 'Skill Development Programs',
-            'text'  => 'Job-oriented training that builds practical, employable skills and confidence.',
-            'points' => ['Communication & soft skills', 'Language training', 'Interview preparation', 'Employment-linked programs'],
+            'text'  => 'Vocational and job-oriented training that builds practical, employable skills and confidence.',
+            'points' => ['Job-readiness coaching', 'Competency certification', 'CV building & interview preparation', 'Language training'],
+        ],
+        'scholarships-loans' => [
+            'cat' => 'career', 'icon' => 'star', 'home' => true,
+            'title' => 'Scholarships & Education Loans',
+            'text'  => 'Assistance in securing education loans and scholarships for higher studies in India and abroad.',
+            'points' => ['Scholarship search & applications', 'Education loan guidance', 'Domestic & international studies', 'Financial planning for families'],
+        ],
+        'social-initiatives' => [
+            'cat' => 'skills', 'icon' => 'users',
+            'title' => 'Social Initiatives & Global Placement',
+            'text'  => 'Community programs and international recruitment that connect Indian youth with opportunities.',
+            'points' => ['Rural development', 'Women empowerment', 'Legal awareness', 'International recruitment & job placement'],
         ],
     ],
 
@@ -71,10 +83,10 @@ return [
     // 'services' lists service slugs from above, best match first.
     'goals' => [
         ['icon' => 'stethoscope', 'title' => 'Become a doctor',        'text' => 'MBBS, BDS, nursing and more',       'services' => ['mbbs-abroad', 'medical-education', 'other-medical-courses']],
-        ['icon' => 'plane',       'title' => 'Study abroad',           'text' => 'Universities around the world',     'services' => ['abroad-studies', 'mbbs-abroad', 'career-counseling']],
+        ['icon' => 'plane',       'title' => 'Study abroad',           'text' => 'Universities around the world',     'services' => ['abroad-studies', 'mbbs-abroad', 'scholarships-loans']],
         ['icon' => 'briefcase',   'title' => 'Work & train in Germany','text' => 'Paid Ausbildung programs',          'services' => ['ausbildung-germany', 'skill-development']],
         ['icon' => 'laptop',      'title' => 'Learn while I work',     'text' => 'Online degrees and certificates',   'services' => ['online-education', 'management-it']],
-        ['icon' => 'tools',       'title' => 'Get job-ready skills',   'text' => 'Practical, employable training',    'services' => ['skill-development', 'management-it', 'online-education']],
+        ['icon' => 'tools',       'title' => 'Get job-ready skills',   'text' => 'Practical, employable training',    'services' => ['skill-development', 'social-initiatives', 'management-it']],
         ['icon' => 'compass',     'title' => "I'm not sure yet",       'text' => 'Talk it through with a counselor',  'services' => ['career-counseling']],
     ],
 
@@ -122,7 +134,8 @@ return [
     // FAQs grouped by topic. Answers may contain simple HTML.
     'faqs' => [
         'General' => [
-            ['Who can approach PERF for guidance?', 'Students from class 10 onwards, graduates, working professionals and parents looking for guidance on courses, careers and studying or working abroad.'],
+            ['What is PERF?', 'Poudyal Education & Research Foundation (PERF) is a non-profit organization formed in 2021 by Mr. Hemant Poudyal. It is incorporated with the Ministry of Corporate Affairs (CIN: U85500WB2023NPL263149) and registered with NITI Aayog, Government of India.'],
+            ['Who can approach PERF for guidance?', 'Students from class 8 onwards, graduates, working professionals and parents looking for guidance on courses, careers and studying or working abroad.'],
             ['Is the first counseling session free?', 'Yes. Your first counseling session is free. You can visit our office, call us, or request a session through the enquiry form.'],
             ['Do you offer online counseling?', 'Yes. Counseling can be done over a phone or video call, so you can get guidance from anywhere.'],
         ],

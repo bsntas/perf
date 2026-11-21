@@ -164,16 +164,17 @@ return [
         'menu' => 'Pages', 'title' => 'About page', 'icon' => 'book', 'store' => 'config',
         'fields' => [
             'about_intro'    => ['type' => 'textarea', 'rows' => 6, 'label' => '"Who we are"', 'help' => 'Separate paragraphs with a blank line.'],
-            'about_extra'    => ['type' => 'textarea', 'rows' => 3, 'label' => 'Extra paragraph (history, founding year, registration...)'],
+            'about_extra'    => ['type' => 'textarea', 'rows' => 5, 'label' => 'History (founding year, registration...)', 'help' => 'Separate paragraphs with a blank line.'],
             'mission'        => ['type' => 'textarea', 'rows' => 3, 'label' => 'Mission'],
             'vision'         => ['type' => 'textarea', 'rows' => 3, 'label' => 'Vision'],
             'values'         => ['type' => 'lines', 'label' => 'Values (one per line)'],
             'certifications' => ['type' => 'lines', 'label' => 'Registrations & certifications (one per line)'],
             'partners'       => ['type' => 'lines', 'label' => 'Partner institutions (one per line)'],
-            'founder'        => ['type' => 'object', 'label' => "Founder's message", 'help' => 'The block is hidden while the message is empty.', 'fields' => [
+            'founder'        => ['type' => 'object', 'label' => "Founder / Chairman's message", 'help' => 'The block is hidden while the message is empty.', 'fields' => [
                 'name'    => ['type' => 'text', 'label' => 'Name'],
                 'title'   => ['type' => 'text', 'label' => 'Title', 'placeholder' => 'Founder, PERF'],
                 'photo'   => ['type' => 'image', 'label' => 'Photo', 'dir' => 'assets/img/team'],
+                'bio'     => ['type' => 'textarea', 'rows' => 3, 'label' => 'Short profile'],
                 'message' => ['type' => 'textarea', 'rows' => 6, 'label' => 'Message', 'help' => 'Separate paragraphs with a blank line.'],
             ]],
         ],

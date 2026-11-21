@@ -142,6 +142,7 @@ p{margin:0 0 1em}a{color:var(--navy)}img{max-width:100%;height:auto;display:bloc
 .avatar{display:grid;place-items:center;aspect-ratio:4/5;background:#eef2fb;color:#9aa6cf}
 .founder-row{grid-template-columns:.7fr 1.3fr}
 .sign span{color:var(--mut);font-size:.9rem}
+.bio{color:var(--mut);font-size:.95rem;border-left:3px solid var(--line);padding-left:14px}
 
 /* find your path */
 .finder{background:#fff}

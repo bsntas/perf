@@ -23,7 +23,7 @@
   // count-up numbers ("500+" counts from 0 to 500 and keeps the "+")
   function countUp(el) {
     var m = /^(\D*)(\d+)(.*)$/.exec(el.dataset.count || '');
-    if (!m || reduce || el.counted) return;
+    if (!m || reduce || el.counted || /^(19|20)\d\d$/.test(el.dataset.count)) return;  // years ("2021") stay as they are
     el.counted = true;
     var end = +m[2], t0 = null;
     var step = function (t) {
