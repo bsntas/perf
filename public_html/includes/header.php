@@ -13,6 +13,8 @@ $org = [
 if (cfg('phone_intl') !== '') $org['telephone'] = '+' . preg_replace('/\D/', '', cfg('phone_intl'));
 if (cfg('address') !== '') $org['address'] = cfg('address');
 $same = array_values(array_filter(cfg('social', [])));
+$ann = cfg('announcement', []);
+$showAnn = !empty($ann['text']) && (empty($ann['until']) || strtotime($ann['until']) >= strtotime('today'));
 if ($same) $org['sameAs'] = $same;
 ?><!DOCTYPE html>
 <html lang="en" class="no-js">
@@ -49,6 +51,9 @@ if ($same) $org['sameAs'] = $same;
 <body<?= wa_link() ? '' : ' class="no-wa"' ?>>
 <a class="skip" href="#main">Skip to content</a>
 <div class="progress" aria-hidden="true"><span id="progress"></span></div>
+<?php if ($showAnn): ?>
+<div class="announce"><div class="wrap"><span><?= icon('spark', 16) ?> <?= e($ann['text']) ?></span><?php if (!empty($ann['link'])): ?> <a href="<?= e($ann['link']) ?>"><?= e(($ann['link_text'] ?? '') ?: 'Learn more') ?> <?= icon('arrow', 14) ?></a><?php endif; ?></div></div>
+<?php endif; ?>
 <?php if (cfg('phone_display') !== '' || cfg('email') !== ''): ?>
 <div class="topbar"><div class="wrap topbar-in">
   <span class="tb-tag"><?= e(cfg('tagline')) ?></span>
