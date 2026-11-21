@@ -96,6 +96,26 @@ function gallery_items() {
 
 function brochure_url() { return is_file(dirname(__DIR__) . '/assets/brochure/PERF-Brochure.pdf') ? asset('assets/brochure/PERF-Brochure.pdf') : ''; }
 
+/* Opening tag of an enquiry form plus the spam-check fields. On the static preview (no server)
+   main.js sends the enquiry via WhatsApp or the email app instead. */
+function form_open($id, $class) {
+    if (STATIC_BUILD) echo '<form class="' . e($class) . '" id="' . e($id) . '" data-enquiry data-static="1" data-wa="' . e(preg_replace('/\D/', '', cfg('whatsapp_intl'))) . '" data-email="' . e(cfg('form_to')) . '">';
+    else echo '<form class="' . e($class) . '" id="' . e($id) . '" data-enquiry action="' . url('enquiry.php') . '" method="post">';
+    echo '<div class="hp" aria-hidden="true"><label>Leave this empty<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>'
+       . '<input type="hidden" name="t" value="' . time() . '">';
+}
+
+/* Brand icons for the footer social links. */
+function social_svg($k) {
+    static $p = [
+        'facebook'  => '<path d="M14 8.5V6.8c0-.8.2-1.3 1.4-1.3H17V2.2c-.3 0-1.3-.2-2.5-.2-2.5 0-4.2 1.5-4.2 4.3v2.2H7.5V12h2.8v10H14V12h2.8l.4-3.5H14z"/>',
+        'instagram' => '<path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zM17.3 5.5a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4zM12 3.8c2.7 0 3 0 4 .1 2.7.1 4 1.4 4.1 4.1.1 1 .1 1.3.1 4s0 3-.1 4c-.1 2.7-1.4 4-4.1 4.1-1 .1-1.3.1-4 .1s-3 0-4-.1c-2.7-.1-4-1.4-4.1-4.1-.1-1-.1-1.3-.1-4s0-3 .1-4C3.9 5.3 5.3 4 8 3.9c1-.1 1.3-.1 4-.1zM12 2c-2.7 0-3.1 0-4.1.1C4.2 2.2 2.2 4.2 2.1 7.9 2 8.9 2 9.3 2 12s0 3.1.1 4.1c.2 3.7 2.2 5.7 5.8 5.8 1 .1 1.4.1 4.1.1s3.1 0 4.1-.1c3.7-.2 5.7-2.2 5.8-5.8.1-1 .1-1.4.1-4.1s0-3.1-.1-4.1c-.2-3.7-2.2-5.7-5.8-5.8C15.1 2 14.7 2 12 2z"/>',
+        'youtube'   => '<path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12 31 31 0 0 0 1 16.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.7 15V9l5.8 3-5.8 3z"/>',
+        'linkedin'  => '<path d="M20.4 20.5h-3.6v-5.6c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9v5.7H9.3V9h3.4v1.6h.1c.5-.9 1.6-1.8 3.4-1.8 3.6 0 4.3 2.4 4.3 5.5v6.2zM5.3 7.4a2.1 2.1 0 1 1 0-4.2 2.1 2.1 0 0 1 0 4.2zM7.1 20.5H3.5V9h3.6v11.5zM22.2 0H1.8C.8 0 0 .8 0 1.7v20.6c0 .9.8 1.7 1.8 1.7h20.4c1 0 1.8-.8 1.8-1.7V1.7C24 .8 23.2 0 22.2 0z"/>',
+    ];
+    return '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">' . ($p[$k] ?? '') . '</svg>';
+}
+
 /* Page hero used by inner pages. */
 function page_hero($title, $sub) {
     echo '<section class="page-hero"><div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>'

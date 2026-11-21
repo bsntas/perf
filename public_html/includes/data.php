@@ -78,6 +78,31 @@ return [
         ['icon' => 'compass',     'title' => "I'm not sure yet",       'text' => 'Talk it through with a counselor',  'services' => ['career-counseling']],
     ],
 
+    // "Study destinations" on the home page and in the footer. Edit to match the countries PERF works with.
+    // 'code' is shown as a badge; 'services' are the matching service slugs (first one is linked).
+    'destinations' => [
+        ['code' => 'DE', 'name' => 'Germany',     'text' => 'Ausbildung, nursing and higher studies', 'services' => ['ausbildung-germany', 'abroad-studies']],
+        ['code' => 'GE', 'name' => 'Georgia',     'text' => 'MBBS at recognised universities',        'services' => ['mbbs-abroad']],
+        ['code' => 'RU', 'name' => 'Russia',      'text' => 'MBBS and medical programs',              'services' => ['mbbs-abroad']],
+        ['code' => 'KZ', 'name' => 'Kazakhstan',  'text' => 'Affordable MBBS in English',             'services' => ['mbbs-abroad']],
+        ['code' => 'UK', 'name' => 'United Kingdom', 'text' => 'Business, IT and engineering degrees', 'services' => ['abroad-studies']],
+        ['code' => 'CA', 'name' => 'Canada',      'text' => 'Diplomas, degrees and work pathways',    'services' => ['abroad-studies']],
+        ['code' => 'AU', 'name' => 'Australia',   'text' => 'Globally ranked universities',           'services' => ['abroad-studies']],
+        ['code' => 'IN', 'name' => 'India',       'text' => 'Medical, management and online degrees', 'services' => ['medical-education', 'online-education']],
+    ],
+
+    // "End-to-end support" checklist on the home page: everything a student gets help with.
+    'support' => [
+        ['icon' => 'compass', 'title' => 'Counseling',                       'text' => 'Free first session to understand your goals.'],
+        ['icon' => 'book',    'title' => 'Test & language prep',             'text' => 'NEET guidance, IELTS and German (A1–B2).'],
+        ['icon' => 'search',  'title' => 'Course, country & university selection', 'text' => 'A shortlist that fits your marks and budget.'],
+        ['icon' => 'grad',    'title' => 'Applications & admission',         'text' => 'Forms, SOPs, LORs, documents and interviews.'],
+        ['icon' => 'star',    'title' => 'Scholarships',                     'text' => 'Find awards and fee waivers you qualify for.'],
+        ['icon' => 'chart',   'title' => 'Education loans',                  'text' => 'Guidance on bank loans and financial planning.'],
+        ['icon' => 'shield',  'title' => 'Visa processing',                  'text' => 'Document checks, filing and interview prep.'],
+        ['icon' => 'plane',   'title' => 'Pre-departure & travel',           'text' => 'Briefing, accommodation and on-arrival help.'],
+    ],
+
     'why' => [
         ['icon' => 'globe',  'title' => 'Global opportunities',            'text' => 'Study, training and career pathways across multiple countries and disciplines.'],
         ['icon' => 'grad',   'title' => 'Holistic student development',    'text' => 'Support that covers academics, skills, confidence and career readiness together.'],

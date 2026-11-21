@@ -13,15 +13,9 @@ $map = map_url();
 
 <section class="section">
   <div class="wrap two top">
-    <?php if (STATIC_BUILD): /* no server on GitHub Pages: main.js sends the enquiry via WhatsApp or email */ ?>
-    <form class="card form" id="enquiry" data-static="1" data-wa="<?= e(preg_replace('/\D/', '', cfg('whatsapp_intl'))) ?>" data-email="<?= e(cfg('form_to')) ?>">
-    <?php else: ?>
-    <form class="card form" id="enquiry" action="<?= url('enquiry.php') ?>" method="post">
-    <?php endif; ?>
+    <?php form_open('enquiry', 'card form'); ?>
       <h2 class="h3">Book your free counseling</h2>
       <p class="note">Fields marked * are required.</p>
-      <div class="hp" aria-hidden="true"><label>Leave this empty<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
-      <input type="hidden" name="t" value="<?= time() ?>">
       <label>Full name *<input type="text" name="name" required maxlength="100" autocomplete="name"></label>
       <div class="row2">
         <label>Phone / WhatsApp *<input type="tel" name="phone" required maxlength="20" pattern="[0-9+()\-\s]{7,20}" autocomplete="tel" inputmode="tel"></label>
@@ -41,7 +35,7 @@ $map = map_url();
       </div>
       <label>Message<textarea name="message" rows="4" maxlength="1500" placeholder="Tell us about your qualification, goals or questions"></textarea></label>
       <button class="btn btn-gold btn-lg" type="submit">Send enquiry <?= icon('arrow', 18) ?></button>
-      <p class="status<?= $sent === '1' ? ' ok' : ($sent === '0' ? ' err' : '') ?>" id="status" role="status" aria-live="polite"><?php
+      <p class="status<?= $sent === '1' ? ' ok' : ($sent === '0' ? ' err' : '') ?>" role="status" aria-live="polite"><?php
         if ($sent === '1') echo 'Thank you! Our team will contact you shortly.';
         elseif ($sent === '0') echo 'Sorry, your enquiry could not be sent. Please check the details or call us.';
       ?></p>

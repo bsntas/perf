@@ -9,11 +9,12 @@ $stats = cfg('stats', []);
 $testimonials = cfg('testimonials', []);
 // Until real figures are added in config.php, show facts that come straight from the site content.
 if (!$stats) $stats = [
-    ['value' => (string)count($DATA['services']), 'label' => 'Programs & services'],
-    ['value' => (string)count($DATA['categories']), 'label' => 'Career areas'],
-    ['value' => (string)count($DATA['process']), 'label' => 'Simple steps to admission'],
-    ['value' => '100%', 'label' => 'Free first counseling'],
+    ['value' => (string)count($DATA['services']), 'label' => 'Programs & services', 'text' => 'Medical, abroad, online and skill programs under one roof.'],
+    ['value' => (string)count($DATA['destinations']), 'label' => 'Study destinations', 'text' => 'Options in India and around the world, matched to your goals.'],
+    ['value' => (string)count($DATA['process']), 'label' => 'Simple steps to admission', 'text' => 'A clear plan from first conversation to your first day.'],
+    ['value' => '100%', 'label' => 'Free first counseling', 'text' => 'Honest advice before you spend a single rupee.'],
 ];
+$events = array_values(array_filter(cfg('events', []), function ($ev) { return empty($ev['date']) || strtotime($ev['date']) >= strtotime('today'); }));
 ?>
 <section class="hero">
   <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -21,7 +22,7 @@ if (!$stats) $stats = [
     <div class="hero-text">
       <span class="pill"><?= icon('spark', 16) ?> <?= e(cfg('tagline')) ?></span>
       <h1>Your global education and career journey <span class="hl">starts here</span></h1>
-      <p>PERF guides students and parents through career counseling, medical admissions, studies abroad and skill development, with honest advice at every step.</p>
+      <p>We are bringing quality education and global careers within every student's reach, with honest guidance on counseling, medical admissions, studies abroad and skill development.</p>
       <div class="hero-btns">
         <a class="btn btn-gold btn-lg" href="<?= url('contact') ?>#enquiry">Book Free Counseling <?= icon('arrow', 18) ?></a>
         <a class="btn btn-ghost btn-lg" href="#find-path">Find my path</a>
@@ -90,6 +91,16 @@ if (!$stats) $stats = [
   </div>
 </section>
 
+<section class="section stats-band">
+  <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="wrap">
+    <div class="sec-head light"><span class="eyebrow">Our core strengths</span><h2>Guidance you can count on</h2></div>
+    <div class="grid g4 stats">
+      <?php foreach ($stats as $s): ?><div class="stat"><b data-count="<?= e($s['value']) ?>"><?= e($s['value']) ?></b><span><?= e($s['label']) ?></span><?php if (!empty($s['text'])): ?><p><?= e($s['text']) ?></p><?php endif; ?></div><?php endforeach; ?>
+    </div>
+  </div>
+</section>
+
 <section class="section alt">
   <div class="wrap">
     <div class="sec-head"><span class="eyebrow">What we do</span><h2>Key services</h2><p>From choosing the right course to settling in abroad, we support you at every stage.</p></div>
@@ -100,11 +111,28 @@ if (!$stats) $stats = [
   </div>
 </section>
 
-<section class="section stats-band">
-  <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+<section class="section" id="destinations">
   <div class="wrap">
-    <div class="grid g4 stats">
-      <?php foreach ($stats as $s): ?><div class="stat"><b data-count="<?= e($s['value']) ?>"><?= e($s['value']) ?></b><span><?= e($s['label']) ?></span></div><?php endforeach; ?>
+    <div class="sec-head"><span class="eyebrow">Study destinations</span><h2>Where would you like to go?</h2><p>Explore countries our students choose for medicine, vocational training and higher studies.</p></div>
+    <div class="grid g4 dests">
+      <?php foreach ($DATA['destinations'] as $d): ?>
+        <a class="card dest" href="<?= url('contact') ?>?interest=<?= e($d['services'][0]) ?>#enquiry">
+          <span class="dest-code"><?= e($d['code']) ?></span>
+          <span><b><?= e($d['name']) ?></b><small><?= e($d['text']) ?></small></span>
+          <?= icon('arrow', 18) ?>
+        </a>
+      <?php endforeach; ?>
+    </div>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="eyebrow">Services for students</span><h2>End-to-end support, all in one place</h2><p>Everything you need between &ldquo;I want to study&rdquo; and your first day of class.</p></div>
+    <div class="grid g4 support">
+      <?php foreach ($DATA['support'] as $sp): ?>
+        <div class="card ic sup"><span class="svc-ico"><?= icon($sp['icon'], 24) ?></span><h3><?= e($sp['title']) ?></h3><p><?= e($sp['text']) ?></p></div>
+      <?php endforeach; ?>
     </div>
   </div>
 </section>
@@ -131,8 +159,28 @@ if (!$stats) $stats = [
   </div>
 </section>
 
-<?php if ($testimonials): ?>
+<?php if ($events): ?>
 <section class="section">
+  <div class="wrap">
+    <div class="sec-head"><span class="eyebrow">Upcoming events</span><h2>Seminars, webinars and fairs</h2><p>Meet our counselors and get your questions answered in person or online.</p></div>
+    <div class="grid g3">
+      <?php foreach ($events as $ev): $ts = !empty($ev['date']) ? strtotime($ev['date']) : 0; ?>
+        <article class="card ic event">
+          <?php if ($ts): ?><span class="ev-date"><b><?= date('d', $ts) ?></b><?= date('M Y', $ts) ?></span><?php endif; ?>
+          <span class="badge">New</span>
+          <h3><?= e($ev['title']) ?></h3>
+          <?php if (!empty($ev['place'])): ?><p class="ev-place"><?= icon('pin', 16) ?> <?= e($ev['place']) ?></p><?php endif; ?>
+          <?php if (!empty($ev['text'])): ?><p><?= e($ev['text']) ?></p><?php endif; ?>
+          <a class="more" href="<?= e(!empty($ev['link']) ? $ev['link'] : url('contact') . '#enquiry') ?>"<?= !empty($ev['link']) ? ' target="_blank" rel="noopener"' : '' ?>>Register <?= icon('arrow', 16) ?></a>
+        </article>
+      <?php endforeach; ?>
+    </div>
+  </div>
+</section>
+<?php endif; ?>
+
+<?php if ($testimonials): ?>
+<section class="section<?= $events ? ' alt' : '' ?>">
   <div class="wrap">
     <div class="sec-head"><span class="eyebrow">Testimonials</span><h2>What students and parents say</h2></div>
     <div class="slider" id="slider" aria-roledescription="carousel">
@@ -147,7 +195,7 @@ if (!$stats) $stats = [
 </section>
 <?php endif; ?>
 
-<section class="section<?= $testimonials ? ' alt' : '' ?>">
+<section class="section<?= ($testimonials xor $events) ? ' alt' : '' ?>">
   <div class="wrap two">
     <div>
       <span class="eyebrow">Have questions?</span>
@@ -155,7 +203,22 @@ if (!$stats) $stats = [
       <p>Admission process, eligibility, fees, safety abroad and more. Read our FAQs or speak to a counselor directly.</p>
       <div class="hero-btns"><a class="btn btn-navy" href="<?= url('faqs') ?>">Read FAQs</a><a class="btn btn-outline" href="<?= url('contact') ?>">Contact us</a></div>
     </div>
-    <div class="card quote-card"><span class="qc-ico"><?= icon('shield', 30) ?></span><p class="big"><?= e(cfg('tagline')) ?></p><p>Our promise to every student who walks through our door.</p></div>
+    <?php form_open('callback', 'card form callback'); ?>
+      <h2 class="h3">Request a call back</h2>
+      <p class="note">Leave your number and a counselor will call you, free of charge.</p>
+      <label>Full name *<input type="text" name="name" required maxlength="100" autocomplete="name"></label>
+      <label>Phone / WhatsApp *<input type="tel" name="phone" required maxlength="20" pattern="[0-9+()\-\s]{7,20}" autocomplete="tel" inputmode="tel"></label>
+      <div class="row2">
+        <label>I am a
+          <select name="role"><?php foreach (['Student', 'Parent', 'Working professional', 'Institute', 'Partner'] as $r): ?><option><?= e($r) ?></option><?php endforeach; ?></select>
+        </label>
+        <label>Interested in
+          <select name="interest"><?php foreach ($DATA['services'] as $slug => $sv): ?><option value="<?= e($slug) ?>"><?= e($sv['title']) ?></option><?php endforeach; ?><option value="other">Something else</option></select>
+        </label>
+      </div>
+      <button class="btn btn-gold" type="submit">Call me back <?= icon('phone', 18) ?></button>
+      <p class="status" role="status" aria-live="polite"></p>
+    </form>
   </div>
 </section>
 <?php require __DIR__ . '/includes/footer.php'; ?>

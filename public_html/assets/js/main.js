@@ -46,7 +46,7 @@
         io.unobserve(el);
       });
     }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-    document.querySelectorAll('.sec-head, .card, .goal, .steps li, .stat, .tile, .faq, .two > div, .filters, .faq-search').forEach(function (el) {
+    document.querySelectorAll('.sec-head, .card, .goal, .steps li, .stat, .tile, .dest, .faq, .two > div, .filters, .faq-search').forEach(function (el) {
       if (el.getBoundingClientRect().top < innerHeight) return; // already on screen: leave as is
       var p = el.parentNode;
       p._rv = (p._rv || 0) + 1; // stagger siblings in the same row
@@ -152,27 +152,35 @@
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !lb.hidden) close(); });
   }
 
-  var f = document.getElementById('enquiry');
-
   // "Enquire now" links pass ?interest=<service> to pre-select the course
+  var f = document.getElementById('enquiry');
   if (f) {
     var pre = new URLSearchParams(location.search).get('interest');
     if (pre && f.interest.querySelector('option[value="' + pre.replace(/[^a-z0-9-]/g, '') + '"]')) f.interest.value = pre;
   }
 
-  // Static preview (GitHub Pages): no server, so hand the enquiry to WhatsApp or the email app
-  if (f && f.dataset.static) {
-    f.addEventListener('submit', function (e) {
+  // enquiry forms (contact page + home page call-back form)
+  document.querySelectorAll('form[data-enquiry]').forEach(function (f) {
+    var st = f.querySelector('.status'), btn = f.querySelector('button[type=submit]');
+    var v = function (n) { return f[n] ? (f[n].value || '').trim() : ''; };
+    var invalid = function () {
+      if (f.checkValidity()) return false;
+      st.className = 'status err'; st.textContent = 'Please enter your name and a valid phone number.';
+      f.reportValidity && f.reportValidity();
+      return true;
+    };
+
+    // Static preview (GitHub Pages): no server, so hand the enquiry to WhatsApp or the email app
+    if (f.dataset.static) f.addEventListener('submit', function (e) {
       e.preventDefault();
-      var st = document.getElementById('status');
-      if (!f.checkValidity()) {
-        st.className = 'status err'; st.textContent = 'Please enter your name and a valid phone number.';
-        f.reportValidity && f.reportValidity(); return;
-      }
-      var v = function (n) { return (f[n].value || '').trim(); };
-      var lines = ['New enquiry from the PERF website', '',
-        'Name: ' + v('name'), 'Phone: ' + v('phone'), 'Email: ' + v('email'), 'I am a: ' + v('role'),
-        'City: ' + v('city'), 'Interested in: ' + f.interest.options[f.interest.selectedIndex].text, '', 'Message:', v('message') || '-'];
+      if (invalid()) return;
+      var lines = ['New ' + (f.id === 'callback' ? 'call-back request' : 'enquiry') + ' from the PERF website', '',
+        'Name: ' + v('name'), 'Phone: ' + v('phone')];
+      if (f.email) lines.push('Email: ' + v('email'));
+      lines.push('I am a: ' + v('role'));
+      if (f.city) lines.push('City: ' + v('city'));
+      lines.push('Interested in: ' + f.interest.options[f.interest.selectedIndex].text);
+      if (f.message) lines.push('', 'Message:', v('message') || '-');
       var text = lines.join('\n');
       if (f.dataset.wa) {
         window.open('https://wa.me/' + f.dataset.wa + '?text=' + encodeURIComponent(text), '_blank', 'noopener');
@@ -182,19 +190,11 @@
         st.className = 'status ok'; st.textContent = 'Your email app has opened with the enquiry. Press send there and our team will reply shortly.';
       }
     });
-  }
 
-  // enquiry form (Hostinger): send with fetch; without JS it posts normally and redirects back
-  else if (f && window.fetch && window.FormData) {
-    f.addEventListener('submit', function (e) {
-      var st = document.getElementById('status'), btn = f.querySelector('button[type=submit]');
+    // Hostinger: send with fetch; without JS it posts normally and redirects back
+    else if (window.fetch && window.FormData) f.addEventListener('submit', function (e) {
       e.preventDefault();
-      if (!f.checkValidity()) {
-        st.className = 'status err';
-        st.textContent = 'Please enter your name and a valid phone number.';
-        f.reportValidity && f.reportValidity();
-        return;
-      }
+      if (invalid()) return;
       st.className = 'status'; st.textContent = 'Sending...'; btn.disabled = true;
       fetch(f.action, { method: 'POST', body: new FormData(f), headers: { 'X-Requested-With': 'fetch' } })
         .then(function (r) { return r.json(); })
@@ -205,5 +205,5 @@
         .catch(function () { st.className = 'status err'; st.textContent = 'Could not send. Please call or WhatsApp us instead.'; })
         .then(function () { btn.disabled = false; });
     });
-  }
+  });
 })();
