@@ -7,6 +7,92 @@
     mb.setAttribute('aria-label', o ? 'Close menu' : 'Open menu');
   });
 
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // header shadow, reading progress bar and back-to-top button
+  var header = document.querySelector('.site-header'), bar = document.getElementById('progress'), top = document.getElementById('to-top');
+  var onScroll = function () {
+    var y = window.scrollY, h = document.documentElement.scrollHeight - innerHeight;
+    if (header) header.classList.toggle('scrolled', y > 10);
+    if (bar) bar.style.transform = 'scaleX(' + (h > 0 ? y / h : 0) + ')';
+    if (top) top.classList.toggle('show', y > 600);
+  };
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  if (top) top.addEventListener('click', function () { scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); });
+
+  // count-up numbers ("500+" counts from 0 to 500 and keeps the "+")
+  function countUp(el) {
+    var m = /^(\D*)(\d+)(.*)$/.exec(el.dataset.count || '');
+    if (!m || reduce || el.counted) return;
+    el.counted = true;
+    var end = +m[2], t0 = null;
+    var step = function (t) {
+      t0 = t0 || t;
+      var p = Math.min((t - t0) / 1400, 1), v = Math.round(end * (1 - Math.pow(1 - p, 3)));
+      el.textContent = m[1] + v + m[3];
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  // gentle fade-up of content as it scrolls into view
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var el = en.target;
+        el.classList.add('in');
+        el.querySelectorAll && el.querySelectorAll('[data-count]').forEach(countUp);
+        io.unobserve(el);
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.sec-head, .card, .goal, .steps li, .stat, .tile, .faq, .two > div, .filters, .faq-search').forEach(function (el) {
+      if (el.getBoundingClientRect().top < innerHeight) return; // already on screen: leave as is
+      var p = el.parentNode;
+      p._rv = (p._rv || 0) + 1; // stagger siblings in the same row
+      el.style.setProperty('--d', Math.min(p._rv - 1, 5));
+      el.classList.add('rv'); io.observe(el);
+    });
+    document.querySelectorAll('.stats, .journey').forEach(function (el) { io.observe(el); });
+  } else document.querySelectorAll('[data-count]').forEach(countUp);
+
+  // "Find your path": tap a goal to see matching programs
+  var goals = document.querySelectorAll('.goal');
+  goals.forEach(function (g) {
+    g.addEventListener('click', function (e) {
+      e.preventDefault();
+      var id = g.dataset.goal, res = document.querySelector('[data-result="' + id + '"]');
+      goals.forEach(function (x) { x.classList.toggle('on', x === g); x.setAttribute('aria-pressed', x === g); });
+      document.querySelectorAll('.goal-result').forEach(function (r) { r.hidden = r !== res; });
+      if (res) {
+        var r = res.getBoundingClientRect();
+        if (r.bottom > innerHeight) scrollTo({ top: scrollY + r.bottom - innerHeight + 24, behavior: reduce ? 'auto' : 'smooth' });
+      }
+    });
+  });
+
+  // FAQ search: type a word to filter questions
+  var q = document.getElementById('faq-q');
+  if (q) {
+    var faqs = [].slice.call(document.querySelectorAll('.faq'));
+    var heads = [].slice.call(document.querySelectorAll('.faq-group'));
+    faqs.forEach(function (d) { d.dataset.text = d.textContent.toLowerCase(); });
+    q.addEventListener('input', function () {
+      var v = q.value.trim().toLowerCase(), any = false;
+      faqs.forEach(function (d) {
+        var hit = !v || d.dataset.text.indexOf(v) > -1;
+        d.hidden = !hit; any = any || hit; d.classList.add('in');
+        d.open = !!v && hit && v.length > 2;
+      });
+      heads.forEach(function (h) {
+        var n = h.nextElementSibling, vis = false;
+        while (n && n.classList.contains('faq')) { if (!n.hidden) vis = true; n = n.nextElementSibling; }
+        h.hidden = !vis;
+      });
+      document.getElementById('faq-none').hidden = any;
+    });
+  }
+
   // category filters (services + gallery)
   function filters(barId, itemsSel) {
     var bar = document.getElementById(barId);
@@ -18,7 +104,10 @@
         c.classList.add('on'); c.setAttribute('aria-pressed', 'true');
         var f = c.dataset.f;
         document.querySelectorAll(itemsSel).forEach(function (el) {
-          el.style.display = (f === 'all' || el.dataset.cat === f) ? '' : 'none';
+          var show = f === 'all' || el.dataset.cat === f;
+          el.style.display = show ? '' : 'none';
+          el.classList.remove('fade-in');
+          if (show) { void el.offsetWidth; el.classList.add('fade-in'); }
         });
       });
     });

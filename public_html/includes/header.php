@@ -15,10 +15,11 @@ if (cfg('address') !== '') $org['address'] = cfg('address');
 $same = array_values(array_filter(cfg('social', [])));
 if ($same) $org['sameAs'] = $same;
 ?><!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.className='js'</script>
 <title><?= e($fullTitle) ?></title>
 <meta name="description" content="<?= e($desc) ?>">
 <link rel="canonical" href="<?= e($canonical) ?>">
@@ -45,8 +46,9 @@ if ($same) $org['sameAs'] = $same;
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','<?= e(cfg('ga_id')) ?>');</script>
 <?php endif; ?>
 </head>
-<body>
+<body<?= wa_link() ? '' : ' class="no-wa"' ?>>
 <a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"><span id="progress"></span></div>
 <?php if (cfg('phone_display') !== '' || cfg('email') !== ''): ?>
 <div class="topbar"><div class="wrap topbar-in">
   <span class="tb-tag"><?= e(cfg('tagline')) ?></span>

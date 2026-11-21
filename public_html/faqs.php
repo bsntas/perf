@@ -11,6 +11,9 @@ $ld = ['@context' => 'https://schema.org', '@type' => 'FAQPage', 'mainEntity' =>
 
 <section class="section">
   <div class="wrap narrow">
+    <label class="faq-search"><?= icon('search', 22) ?><span class="sr">Search the FAQs</span>
+      <input type="search" id="faq-q" placeholder="Type a word, e.g. fees, visa, NEET" autocomplete="off"></label>
+    <p class="faq-none" id="faq-none" hidden>No matching questions. <a href="<?= url('contact') ?>#enquiry"><b>Ask a counselor instead</b></a></p>
     <?php foreach ($DATA['faqs'] as $group => $list): ?>
       <h2 class="faq-group"><?= e($group) ?></h2>
       <?php foreach ($list as [$q, $a]):

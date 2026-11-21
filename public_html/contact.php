@@ -18,7 +18,7 @@ $map = map_url();
     <?php else: ?>
     <form class="card form" id="enquiry" action="<?= url('enquiry.php') ?>" method="post">
     <?php endif; ?>
-      <h2 class="h3">Enquiry form</h2>
+      <h2 class="h3">Book your free counseling</h2>
       <p class="note">Fields marked * are required.</p>
       <div class="hp" aria-hidden="true"><label>Leave this empty<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
       <input type="hidden" name="t" value="<?= time() ?>">
@@ -27,20 +27,20 @@ $map = map_url();
         <label>Phone / WhatsApp *<input type="tel" name="phone" required maxlength="20" pattern="[0-9+()\-\s]{7,20}" autocomplete="tel" inputmode="tel"></label>
         <label>Email<input type="email" name="email" maxlength="120" autocomplete="email"></label>
       </div>
+      <fieldset class="pills"><legend>I am a</legend>
+        <?php foreach (['Student', 'Parent', 'Working professional', 'Other'] as $i => $r): ?><label><input type="radio" name="role" value="<?= e($r) ?>"<?= $i ? '' : ' checked' ?>><span><?= e($r) ?></span></label><?php endforeach; ?>
+      </fieldset>
       <div class="row2">
-        <label>I am a
-          <select name="role"><option>Student</option><option>Parent</option><option>Working professional</option><option>Other</option></select>
-        </label>
         <label>Interested in
           <select name="interest">
             <?php foreach ($DATA['services'] as $slug => $s): ?><option value="<?= e($slug) ?>"<?= $pre === $slug ? ' selected' : '' ?>><?= e($s['title']) ?></option><?php endforeach; ?>
             <option value="other"<?= $pre === 'other' ? ' selected' : '' ?>>Something else</option>
           </select>
         </label>
+        <label>City<input type="text" name="city" maxlength="60" autocomplete="address-level2"></label>
       </div>
-      <label>City<input type="text" name="city" maxlength="60" autocomplete="address-level2"></label>
       <label>Message<textarea name="message" rows="4" maxlength="1500" placeholder="Tell us about your qualification, goals or questions"></textarea></label>
-      <button class="btn btn-gold" type="submit">Send enquiry</button>
+      <button class="btn btn-gold btn-lg" type="submit">Send enquiry <?= icon('arrow', 18) ?></button>
       <p class="status<?= $sent === '1' ? ' ok' : ($sent === '0' ? ' err' : '') ?>" id="status" role="status" aria-live="polite"><?php
         if ($sent === '1') echo 'Thank you! Our team will contact you shortly.';
         elseif ($sent === '0') echo 'Sorry, your enquiry could not be sent. Please check the details or call us.';

@@ -2,8 +2,9 @@
 </main>
 <?php if (empty($noCta)): ?>
 <section class="cta-band">
+  <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
   <div class="wrap cta-in">
-    <div><h2>Ready to plan your future?</h2><p>Talk to a PERF counselor and get clear guidance on courses, countries and careers.</p></div>
+    <div><span class="eyebrow">Free first session</span><h2>Ready to plan your future?</h2><p>Talk to a PERF counselor and get clear guidance on courses, countries and careers.</p></div>
     <div class="cta-btns">
       <a class="btn btn-gold" href="<?= url('contact') ?>#enquiry">Book Free Counseling</a>
       <?php if (wa_link()): ?><a class="btn btn-ghost" href="<?= e(wa_link()) ?>" target="_blank" rel="noopener">WhatsApp Us</a>
@@ -42,6 +43,7 @@
 <?php if (wa_link()): ?>
 <a class="wa-float" href="<?= e(wa_link()) ?>" target="_blank" rel="noopener" aria-label="Chat with PERF on WhatsApp"><?= wa_svg() ?></a>
 <?php endif; ?>
+<button type="button" class="to-top" id="to-top" aria-label="Back to top"><?= icon('up', 22) ?></button>
 <script src="<?= asset('assets/js/main.js') ?>" defer></script>
 </body>
 </html>

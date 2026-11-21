@@ -66,6 +66,10 @@ function icon($name, $size = 24) {
         'check'       => '<path d="M20 6 9 17l-5-5"/>',
         'download'    => '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/>',
         'arrow'       => '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+        'up'          => '<path d="m18 15-6-6-6 6"/>',
+        'search'      => '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+        'spark'       => '<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6.3 6.3l2.5 2.5M15.2 15.2l2.5 2.5M6.3 17.7l2.5-2.5M15.2 8.8l2.5-2.5"/>',
+        'star'        => '<path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/>',
     ];
     return '<svg class="i" width="' . $size . '" height="' . $size . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' . ($p[$name] ?? '') . '</svg>';
 }
@@ -94,7 +98,9 @@ function brochure_url() { return is_file(dirname(__DIR__) . '/assets/brochure/PE
 
 /* Page hero used by inner pages. */
 function page_hero($title, $sub) {
-    echo '<section class="page-hero"><div class="wrap"><h1>' . $title . '</h1><p>' . $sub . '</p></div></section>';
+    echo '<section class="page-hero"><div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>'
+       . '<div class="wrap"><span class="eyebrow">' . e(cfg('tagline')) . '</span><h1>' . $title . '</h1><p>' . $sub . '</p></div>'
+       . '<svg class="wave" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 60V30C240 0 480 0 720 22s480 38 720 8v30z"/></svg></section>';
 }
 
 /* Service card. $full adds the bullet list (services page). */

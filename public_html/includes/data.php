@@ -67,6 +67,17 @@ return [
         ],
     ],
 
+    // "Find your path" helper on the home page: visitors tap a goal and see the matching services.
+    // 'services' lists service slugs from above, best match first.
+    'goals' => [
+        ['icon' => 'stethoscope', 'title' => 'Become a doctor',        'text' => 'MBBS, BDS, nursing and more',       'services' => ['mbbs-abroad', 'medical-education', 'other-medical-courses']],
+        ['icon' => 'plane',       'title' => 'Study abroad',           'text' => 'Universities around the world',     'services' => ['abroad-studies', 'mbbs-abroad', 'career-counseling']],
+        ['icon' => 'briefcase',   'title' => 'Work & train in Germany','text' => 'Paid Ausbildung programs',          'services' => ['ausbildung-germany', 'skill-development']],
+        ['icon' => 'laptop',      'title' => 'Learn while I work',     'text' => 'Online degrees and certificates',   'services' => ['online-education', 'management-it']],
+        ['icon' => 'tools',       'title' => 'Get job-ready skills',   'text' => 'Practical, employable training',    'services' => ['skill-development', 'management-it', 'online-education']],
+        ['icon' => 'compass',     'title' => "I'm not sure yet",       'text' => 'Talk it through with a counselor',  'services' => ['career-counseling']],
+    ],
+
     'why' => [
         ['icon' => 'globe',  'title' => 'Global opportunities',            'text' => 'Study, training and career pathways across multiple countries and disciplines.'],
         ['icon' => 'grad',   'title' => 'Holistic student development',    'text' => 'Support that covers academics, skills, confidence and career readiness together.'],

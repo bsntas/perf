@@ -12,11 +12,12 @@ Almost everything is edited in two files – no HTML knowledge needed:
 | File | What's in it |
 |---|---|
 | `public_html/includes/config.php` | Phone, WhatsApp, email, address, map, office hours, social links, enquiry inbox, stats, testimonials, mission/vision, founder message, partners, Google Analytics |
-| `public_html/includes/data.php` | Services/courses, "Why PERF" points, process steps, FAQs |
+| `public_html/includes/data.php` | Services/courses, "Find your path" goals (home page), "Why PERF" points, process steps, FAQs |
 
 Anything left empty in `config.php` is hidden automatically, so the site never shows placeholder text.
-For example, the WhatsApp buttons appear as soon as `whatsapp_intl` is filled in, and the stats and
-testimonial sections appear once they have entries.
+For example, the WhatsApp buttons appear as soon as `whatsapp_intl` is filled in, and the
+testimonial section appears once it has entries. Until `stats` is filled in, the home page shows
+counts taken from the site itself (number of programs, career areas, steps).
 
 **Gallery photos:** upload images (JPG/PNG/WebP, ideally ≤ 1600px wide) into one of
 `public_html/assets/img/gallery/achievements|events|awards|international/`. They appear automatically,
