@@ -19,7 +19,7 @@
       <a href="<?= url() ?>" class="flogo"><?= logo('full', 'Poudyal Education and Research Foundation logo', 'width="720" height="480" loading="lazy"') ?></a>
       <p class="muted">PERF guides students and families through education, careers and global opportunities.</p>
       <?php $social = array_filter(cfg('social', [])); if ($social): ?>
-      <p class="social"><?php foreach ($social as $k => $u): ?><a href="<?= e($u) ?>" target="_blank" rel="noopener"><?= e(ucfirst($k)) ?></a><?php endforeach; ?></p>
+      <p class="social"><?php foreach ($social as $k => $u): ?><a href="<?= e($u) ?>" target="_blank" rel="noopener" aria-label="PERF on <?= e(ucfirst($k)) ?>"><?= social_svg($k) ?></a><?php endforeach; ?></p>
       <?php endif; ?>
     </div>
     <div>
@@ -28,10 +28,15 @@
     </div>
     <div>
       <h4>Programs</h4>
-      <?php foreach (array_slice($DATA['services'], 0, 6, true) as $slug => $s): ?><a href="<?= url('services') ?>#<?= e($slug) ?>"><?= e($s['title']) ?></a><?php endforeach; ?>
+      <?php foreach (array_slice($DATA['services'], 0, 8, true) as $slug => $s): ?><a href="<?= url('services') ?>#<?= e($slug) ?>"><?= e($s['title']) ?></a><?php endforeach; ?>
+    </div>
+    <div>
+      <h4>Study destinations</h4>
+      <?php foreach ($DATA['destinations'] as $d): ?><a href="<?= url('contact') ?>?interest=<?= e($d['services'][0]) ?>#enquiry"><?= e($d['name']) ?></a><?php endforeach; ?>
     </div>
     <div class="fcontact">
       <h4>Contact</h4>
+      <a class="btn btn-gold btn-sm fbtn" href="<?= url('contact') ?>#enquiry">Book Free Counseling</a>
       <?php if (cfg('address') !== ''): ?><p><?= icon('pin', 16) ?> <span><?= e(cfg('address')) ?></span></p><?php endif; ?>
       <?php if (tel_link()): ?><p><?= icon('phone', 16) ?> <a href="<?= e(tel_link()) ?>"><?= e(cfg('phone_display')) ?></a></p><?php endif; ?>
       <?php if (cfg('email') !== ''): ?><p><?= icon('mail', 16) ?> <a href="mailto:<?= e(cfg('email')) ?>"><?= e(cfg('email')) ?></a></p><?php endif; ?>

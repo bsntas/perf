@@ -41,9 +41,15 @@ return [
     // Every enquiry is also saved to storage/leads.csv (not web-accessible), even if email fails.
 
     /* ---------- Home page ---------- */
-    // Success highlights. Leave the list empty to hide the section.
-    // Example: ['value' => '500+', 'label' => 'Students guided'],
+    // "Our core strengths" figures. 'text' is an optional short line under the label.
+    // Example: ['value' => '500+', 'label' => 'Students guided', 'text' => 'Into medical, management and abroad programs.'],
+    // Leave empty to show facts taken from the site content instead.
     'stats' => [],
+
+    // Upcoming events (seminars, webinars, university fairs). Leave empty to hide the section.
+    // Example: ['date' => '2026-12-14', 'title' => 'MBBS Abroad Seminar', 'place' => 'PERF office / Online', 'text' => 'Meet counselors and get your questions answered.', 'link' => ''],
+    // Events whose date has passed are hidden automatically.
+    'events' => [],
 
     // Testimonials slider. Leave empty to hide the section.
     // Example: ['quote' => 'PERF helped me ...', 'name' => 'Asha K.', 'detail' => 'MBBS, Georgia'],
